@@ -1,7 +1,5 @@
 package org.commerce.domain.vo;
 
-import org.commerce.domain.exception.InvalidFirstNameException;
-import org.commerce.domain.exception.InvalidLastNameException;
 import org.commerce.domain.exception.InvalidNameException;
 import org.commerce.domain.exception.InvalidPhoneNumber;
 
@@ -15,16 +13,12 @@ public record UserProfile(String firstname, String lastname, String phoneNumber,
     }
 
     private void validateProfile(String firstname, String lastname, String phoneNumber) {
-        if (firstname.length() < 2) {
-            throw InvalidFirstNameException.invalidLength();
-        }
-
-        if (lastname.length() < 2) {
-            throw InvalidLastNameException.invalidLength();
+        if (firstname.length() < 2 || lastname.length() < 2) {
+            throw InvalidNameException.invalidNameLength();
         }
 
         if (isOnlyLetters(firstname) || isOnlyLetters(lastname)) {
-            throw new InvalidNameException();
+            throw InvalidNameException.invalidName();
         }
 
         if (isValidPhoneNumber(phoneNumber)) {
